@@ -11,16 +11,19 @@ import java.util.List;
 @Repository
 public class SalonDataAccess implements SalonDataDao {
 
+    private static final String COUNT_QUERY = "SELECT count(*) FROM salon_data";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM salon_data";
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public int countTotalSalons() {
-        return jdbcTemplate.queryForObject("SELECT count(*) FROM salon_data", Integer.class);
+        return jdbcTemplate.queryForObject(COUNT_QUERY, Integer.class);
     }
 
     @Override
     public List<Salon> findAll() {
-        return jdbcTemplate.query("SELECT * FROM salon_data", new SalonRowMapper());
+        return jdbcTemplate.query(SELECT_ALL_QUERY, new SalonRowMapper());
     }
 }
