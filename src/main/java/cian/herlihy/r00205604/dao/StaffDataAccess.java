@@ -1,7 +1,7 @@
 package cian.herlihy.r00205604.dao;
 
 import cian.herlihy.r00205604.model.Staff;
-import cian.herlihy.r00205604.model.StaffRowMapper;
+import cian.herlihy.r00205604.rowmappers.StaffRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -29,14 +29,20 @@ public class StaffDataAccess implements StaffDataDao {
     }
 
     @Override
-    public List<Staff> findStaffById(int id) {
+    public Staff findStaffById(int id) {
         String query = String.format(FIND_BY_ID, TABLE, id);
+        return jdbcTemplate.queryForObject(query, new StaffRowMapper());
+    }
+
+    @Override
+    public List<Staff> findStaffByFirstName(String firstName) {
+        String query = String.format(FIND_BY_NAME, TABLE, firstName);
         return jdbcTemplate.query(query, new StaffRowMapper());
     }
 
     @Override
-    public List<Staff> findStaffByName(String name) {
-        String query = String.format(FIND_BY_NAME, TABLE, name);
+    public List<Staff> findStaffBySurname(String surname) {
+        String query = String.format(FIND_BY_NAME, TABLE, surname);
         return jdbcTemplate.query(query, new StaffRowMapper());
     }
 }

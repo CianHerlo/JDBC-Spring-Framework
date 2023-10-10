@@ -10,7 +10,9 @@ public interface StaffDataDao extends CommonQueries {
 
     List<Staff> findAll();
 
-    List<Staff> findStaffById(int id);
+    Staff findStaffById(int id);
 
-    List<Staff> findStaffByName(String name);
+    List<Staff> findStaffByFirstName(String firstName);
+
+    List<Staff> findStaffBySurname(String surname);
 }

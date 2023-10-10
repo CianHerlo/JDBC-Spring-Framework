@@ -10,7 +10,8 @@ import lombok.*;
 public class Staff {
 
     private int staff_id;
-    private String name;
+    private String first_name;
+    private String surname;
     private String phone_number;
     private int salary;
 }

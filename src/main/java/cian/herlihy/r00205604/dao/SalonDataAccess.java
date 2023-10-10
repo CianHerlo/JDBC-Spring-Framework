@@ -1,7 +1,7 @@
 package cian.herlihy.r00205604.dao;
 
 import cian.herlihy.r00205604.model.Salon;
-import cian.herlihy.r00205604.model.SalonRowMapper;
+import cian.herlihy.r00205604.rowmappers.SalonRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

@@ -18,5 +18,8 @@ public class Main {
 
         StaffDataDao staffDataDao = applicationContext.getBean(StaffDataDao.class);
         staffDataDao.findAll().forEach(System.out::println);
+
+        System.out.println(salonDataDao.findSalonById(1));
+        System.out.println(staffDataDao.findStaffById(1));
     }
 }

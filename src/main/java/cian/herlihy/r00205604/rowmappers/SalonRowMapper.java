@@ -1,5 +1,6 @@
-package cian.herlihy.r00205604.model;
+package cian.herlihy.r00205604.rowmappers;
 
+import cian.herlihy.r00205604.model.Salon;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

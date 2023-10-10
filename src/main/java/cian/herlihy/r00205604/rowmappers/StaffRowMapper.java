@@ -1,5 +1,6 @@
-package cian.herlihy.r00205604.model;
+package cian.herlihy.r00205604.rowmappers;
 
+import cian.herlihy.r00205604.model.Staff;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -12,9 +13,10 @@ public class StaffRowMapper implements RowMapper<Staff> {
 
         Staff staff = new Staff();
         staff.setStaff_id(rs.getInt(1));
-        staff.setName(rs.getString(2));
-        staff.setPhone_number(rs.getString(3));
-        staff.setSalary(rs.getInt(4));
+        staff.setFirst_name(rs.getString(2));
+        staff.setSurname(rs.getString(3));
+        staff.setPhone_number(rs.getString(4));
+        staff.setSalary(rs.getInt(5));
         return staff;
     }
 }
