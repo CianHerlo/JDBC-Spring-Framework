@@ -11,19 +11,32 @@ import java.util.List;
 @Repository
 public class StaffDataAccess implements StaffDataDao {
 
-    private static final String COUNT_QUERY = "SELECT count(*) FROM staff_data";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM staff_data";
+    private static final String TABLE = "staff_data";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public int countTotalStaff() {
-        return jdbcTemplate.queryForObject(COUNT_QUERY, Integer.class);
+        String query = String.format(TOTAL_COUNT_QUERY, TABLE);
+        return jdbcTemplate.queryForObject(query, Integer.class);
     }
 
     @Override
     public List<Staff> findAll() {
-        return jdbcTemplate.query(SELECT_ALL_QUERY, new StaffRowMapper());
+        String query = String.format(SELECT_ALL_QUERY, TABLE);
+        return jdbcTemplate.query(query, new StaffRowMapper());
+    }
+
+    @Override
+    public List<Staff> findStaffById(int id) {
+        String query = String.format(FIND_BY_ID, TABLE, id);
+        return jdbcTemplate.query(query, new StaffRowMapper());
+    }
+
+    @Override
+    public List<Staff> findStaffByName(String name) {
+        String query = String.format(FIND_BY_NAME, TABLE, name);
+        return jdbcTemplate.query(query, new StaffRowMapper());
     }
 }
