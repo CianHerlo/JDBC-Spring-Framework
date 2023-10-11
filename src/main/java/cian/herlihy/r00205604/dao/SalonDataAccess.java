@@ -32,8 +32,8 @@ public class SalonDataAccess implements SalonDataDao {
     @Override
     public boolean addSalon(int id, String name, String address, String phoneNumber, String daysOpen) {
         try {
-        String query = String.format(INSERT_SALON, TABLE, id, name, address, phoneNumber, daysOpen);
-        return jdbcTemplate.update(query) == 1;
+            String query = String.format(INSERT_SALON, TABLE, id, name, address, phoneNumber, daysOpen);
+            return jdbcTemplate.update(query) == 1;
         } catch (Exception e) {
             LOGGER.warn("Error adding Salon to table. Cause: {}", e.getMessage());
             return false;
