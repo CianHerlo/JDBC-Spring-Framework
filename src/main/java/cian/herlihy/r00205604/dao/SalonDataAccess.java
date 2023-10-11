@@ -11,6 +11,16 @@ import java.util.List;
 @Repository
 public class SalonDataAccess implements SalonDataDao {
 
+    /*
+     *               Salon Fields
+     *
+     * id               int
+     * name             String
+     * address          String
+     * phoneNumber      String
+     * daysOpen         String
+     */
+
     private static final String TABLE = "salon_data";
 
     @Autowired
