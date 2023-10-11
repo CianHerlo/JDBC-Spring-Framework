@@ -6,7 +6,8 @@ public interface CommonQueries {
         CREATE queries
     */
     String INSERT_SALON = "INSERT INTO %s (id, name, address, phone_number, days_open) VALUES (%d, %s, %s, %s, %s)";
-    String INSERT_STAFF = "INSERT INTO %s (id, first_name, surname, phone_number, annual_salary) VALUES (%d, %s, %s, %s, %d)";
+    String INSERT_STAFF = "INSERT INTO %s (id, first_name, surname, phone_number, annual_salary, salon_id) " +
+            "VALUES (%d, %s, %s, %s, %d, %d)";
 
     /*
         READ queries

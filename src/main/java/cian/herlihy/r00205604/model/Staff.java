@@ -9,9 +9,10 @@ import lombok.*;
 @Setter
 public class Staff {
 
-    private int staff_id;
-    private String first_name;
+    private int staffId;
+    private String firstName;
     private String surname;
-    private String phone_number;
+    private String phoneNumber;
     private int salary;
+    private int salonId;
 }

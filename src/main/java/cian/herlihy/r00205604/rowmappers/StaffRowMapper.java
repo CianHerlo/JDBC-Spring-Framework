@@ -12,11 +12,12 @@ public class StaffRowMapper implements RowMapper<Staff> {
     public Staff mapRow(ResultSet rs, int rowNum) throws SQLException {
 
         Staff staff = new Staff();
-        staff.setStaff_id(rs.getInt(1));
-        staff.setFirst_name(rs.getString(2));
+        staff.setStaffId(rs.getInt(1));
+        staff.setFirstName(rs.getString(2));
         staff.setSurname(rs.getString(3));
-        staff.setPhone_number(rs.getString(4));
+        staff.setPhoneNumber(rs.getString(4));
         staff.setSalary(rs.getInt(5));
+        staff.setSalonId(rs.getInt(6));
         return staff;
     }
 }

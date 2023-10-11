@@ -11,5 +11,8 @@ CREATE TABLE staff_data (
     first_name varchar(50) NOT NULL,
     surname varchar(50) NOT NULL,
     phone_number varchar(10),
-    annual_salary int
+    annual_salary int,
+    salon_id int
 );
+
+-- DROP TABLE salon_data, staff_data;

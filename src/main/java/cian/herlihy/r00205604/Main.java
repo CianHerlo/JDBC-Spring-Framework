@@ -14,12 +14,10 @@ public class Main {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
         System.out.println(applicationContext.getMessage("welcome", null, Locale.getDefault()));
         SalonDataDao salonDataDao = applicationContext.getBean(SalonDataDao.class);
-        salonDataDao.findAll().forEach(System.out::println);
 
         StaffDataDao staffDataDao = applicationContext.getBean(StaffDataDao.class);
-        staffDataDao.findAll().forEach(System.out::println);
 
-        System.out.println(salonDataDao.findSalonById(1));
-        System.out.println(staffDataDao.findStaffById(1));
+//        System.out.println(salonDataDao.findSalonById(1));
+//        System.out.println(staffDataDao.findStaffById(1));
     }
 }
