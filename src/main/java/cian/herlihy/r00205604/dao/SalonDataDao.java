@@ -5,7 +5,7 @@ import cian.herlihy.r00205604.model.Salon;
 import java.util.List;
 import java.util.Optional;
 
-public interface SalonDataDao extends CommonQueries {
+public interface SalonDataDao extends Queries {
 
     // CREATE
     boolean addSalon(int id, String name, String address, String phoneNumber, String daysOpen);

@@ -1,11 +1,15 @@
 package cian.herlihy.r00205604.dao;
 
+import cian.herlihy.r00205604.model.Salon;
 import cian.herlihy.r00205604.model.Staff;
 import cian.herlihy.r00205604.rowmappers.StaffRowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +24,12 @@ public class StaffDataAccess implements StaffDataDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Autowired
+    private  SalonDataAccess salonDataAccess;
+
 
 
     /*
@@ -31,8 +41,25 @@ public class StaffDataAccess implements StaffDataDao {
     @Override
     public boolean addStaff(int id, String firstName, String surname, String phoneNumber, int annualSalary, int salonId) {
         try {
-            String query = String.format(INSERT_STAFF, TABLE, id, firstName, surname, phoneNumber, annualSalary, salonId);
-            return jdbcTemplate.update(query) == 1;
+            Optional<Staff> existingStaff = findStaffById(id);
+            Optional<Salon> existingSalon = salonDataAccess.findSalonById(salonId);
+
+            if (existingStaff.isPresent() || existingSalon.isEmpty()) {
+                return false;
+            } else {
+
+                MapSqlParameterSource parameters = new MapSqlParameterSource();
+                parameters.addValue("id", id);
+                parameters.addValue("first name", firstName);
+                parameters.addValue("surname", surname);
+                parameters.addValue("phone_number", phoneNumber);
+                parameters.addValue("annual_salary", annualSalary);
+                parameters.addValue("salon_id", salonId);
+
+                String insertSql = String.format(INSERT_STAFF, TABLE);
+                namedParameterJdbcTemplate.update(insertSql, parameters);
+                return true;
+            }
         } catch (Exception e) {
             LOGGER.warn("Error adding Staff to table. Cause: {}", e.getMessage());
             return false;
@@ -63,6 +90,20 @@ public class StaffDataAccess implements StaffDataDao {
     public Optional<Staff> findStaffById(int id) {
         String query = String.format(FIND_BY_ID, TABLE, id);
         return Optional.ofNullable(jdbcTemplate.queryForObject(query, new StaffRowMapper()));
+    }
+
+    @Override
+    public Optional<List<Staff>> findStaffBySalonId(int salonId) {
+        try {
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("salon_id", salonId);
+
+            String query = String.format(FIND_BY_SALON_ID, TABLE);
+            List<Staff> staffList = namedParameterJdbcTemplate.query(query, parameters, new StaffRowMapper());
+            return Optional.of(staffList);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -129,13 +170,17 @@ public class StaffDataAccess implements StaffDataDao {
     @Override
     public boolean deleteById(int id) {
         try {
-            String query = String.format(DELETE_BY_ID, TABLE, id);
-            return jdbcTemplate.update(query) == 1;
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("id", id);
+
+            String query = String.format(DELETE_BY_ID, TABLE);
+            return namedParameterJdbcTemplate.update(query, parameters) == 1;
         } catch (Exception e) {
             LOGGER.warn("Error deleting staff by id. Cause: {}", e.getMessage());
             return false;
         }
     }
+
 
     @Override
     public boolean deleteByFirstName(String firstName) {
@@ -166,6 +211,21 @@ public class StaffDataAccess implements StaffDataDao {
             return jdbcTemplate.update(query) == 1;
         } catch (Exception e) {
             LOGGER.warn("Error deleting staff by phone number. Cause: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteBySalonId(int salonId) {
+        try {
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("salon_id", salonId);
+
+            String query = String.format(DELETE_BY_SALON_ID, TABLE);
+            int rowsAffected = namedParameterJdbcTemplate.update(query, parameters);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            LOGGER.warn("Error deleting staff by salon_id. Cause: {}", e.getMessage());
             return false;
         }
     }

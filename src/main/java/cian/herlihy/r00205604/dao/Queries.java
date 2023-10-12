@@ -1,13 +1,14 @@
 package cian.herlihy.r00205604.dao;
 
-public interface CommonQueries {
+public interface Queries {
 
     /*
         CREATE queries
     */
-    String INSERT_SALON = "INSERT INTO %s (id, name, address, phone_number, days_open) VALUES (:id, :name, :address, :phone_number, :days_open)";
+    String INSERT_SALON = "INSERT INTO %s (id, name, address, phone_number, days_open) " +
+            "VALUES (:id, :name, :address, :phone_number, :days_open)";
     String INSERT_STAFF = "INSERT INTO %s (id, first_name, surname, phone_number, annual_salary, salon_id) " +
-            "VALUES (%d, %s, %s, %s, %d, %d)";
+            "VALUES (:id, :first_name, :surname, :phone_number, :annual_salary, :salon_id)";
 
     /*
         READ queries
@@ -15,7 +16,8 @@ public interface CommonQueries {
     String TOTAL_COUNT_QUERY = "SELECT count(*) FROM %s";
     String SELECT_ALL_QUERY = "SELECT * FROM %s";
     String FIND_BY_ID = "SELECT * FROM %s WHERE id = :id";
-    String FIND_BY_NAME = "SELECT * FROM %s WHERE name = %s";
+    String FIND_BY_SALON_ID = "SELECT * FROM %s WHERE salon_id = :salon_id";
+    String FIND_BY_NAME = "SELECT * FROM %s WHERE name = :name";
 
     /*
         UPDATE queries
@@ -28,7 +30,8 @@ public interface CommonQueries {
     /*
         DELETE queries
     */
-    String DELETE_BY_ID = "DELETE FROM %s WHERE id = %d";
+    String DELETE_BY_ID = "DELETE FROM %s WHERE id = :id";
+    String DELETE_BY_SALON_ID = "DELETE FROM %s WHERE salon_id = :salon_id";
     String DELETE_BY_SALON_NAME = "DELETE FROM %s WHERE name = %s";
     String DELETE_BY_FIRST_NAME = "DELETE FROM %s WHERE first_name = %s";
     String DELETE_BY_SURNAME = "DELETE FROM %s WHERE surname = %s";

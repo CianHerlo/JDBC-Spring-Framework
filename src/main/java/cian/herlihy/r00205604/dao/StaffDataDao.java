@@ -5,7 +5,7 @@ import cian.herlihy.r00205604.model.Staff;
 import java.util.List;
 import java.util.Optional;
 
-public interface StaffDataDao extends CommonQueries {
+public interface StaffDataDao extends Queries {
 
     // CREATE
     boolean addStaff(int id, String firstName, String surname, String phoneNumber, int annualSalary, int salonId);
@@ -14,6 +14,7 @@ public interface StaffDataDao extends CommonQueries {
     Optional<Integer> countTotalStaff();
     Optional<List<Staff>> findAll();
     Optional<Staff> findStaffById(int id);
+    Optional<List<Staff>> findStaffBySalonId(int salonId);
     Optional<List<Staff>> findStaffByFirstName(String firstName);
     Optional<List<Staff>> findStaffBySurname(String surname);
 
@@ -24,6 +25,7 @@ public interface StaffDataDao extends CommonQueries {
 
     // DELETE
     boolean deleteById(int id);
+    boolean deleteBySalonId(int salonId);
     boolean deleteByFirstName(String firstName);
     boolean deleteBySurname(String surname);
     boolean deleteByPHNumber(String phoneNumber);

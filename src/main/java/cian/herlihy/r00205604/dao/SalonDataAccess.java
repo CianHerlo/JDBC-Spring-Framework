@@ -26,6 +26,8 @@ public class SalonDataAccess implements SalonDataDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Autowired StaffDataAccess staffDataAccess;
+
 
 
     /*
@@ -90,8 +92,12 @@ public class SalonDataAccess implements SalonDataDao {
     @Override
     public Optional<List<Salon>> findSalonByName(String name) {
         try {
-            String query = String.format(FIND_BY_NAME, TABLE, name);
-            return Optional.of(jdbcTemplate.query(query, new SalonRowMapper()));
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("name", name);
+
+            String query = String.format(FIND_BY_NAME, TABLE);
+            List<Salon> salons = namedParameterJdbcTemplate.query(query, parameters, new SalonRowMapper());
+            return Optional.of(salons);
         } catch (Exception e) {
             LOGGER.warn("Error finding Salon with matching name. Cause: {}", e.getMessage());
             return Optional.empty();
@@ -139,13 +145,28 @@ public class SalonDataAccess implements SalonDataDao {
     @Override
     public boolean deleteById(int id) {
         try {
-            String query = String.format(DELETE_BY_ID, TABLE, id);
-            return jdbcTemplate.update(query) == 1;
+            Optional<Salon> salon = findSalonById(id);
+
+            if (salon.isEmpty()) {
+                return false;
+            }
+
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("id", id);
+
+            String query = String.format(DELETE_BY_ID, TABLE);
+            boolean deleteStaffSuccess = staffDataAccess.deleteBySalonId(id);
+            if (deleteStaffSuccess) {
+                return namedParameterJdbcTemplate.update(query, parameters) == 1;
+            } else {
+                throw new RuntimeException("Failed to delete Stylists in Salon");
+            }
         } catch (Exception e) {
             LOGGER.warn("Error deleting salon by id. Cause: {}", e.getMessage());
             return false;
         }
     }
+
 
     @Override
     public boolean deleteByName(String name) {
