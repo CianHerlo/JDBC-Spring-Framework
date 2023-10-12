@@ -15,19 +15,13 @@ public class StaffServiceImpl implements StaffService {
     private StaffDataDao staffDataDao;
 
     @Override
-    public boolean addStaff(int id, String firstName, String surname, String phoneNumber, int annualSalary, int salonId) {
-        return staffDataDao.addStaff(id, firstName, surname, phoneNumber, annualSalary, salonId);
+    public void addStaff(int id, String firstName, String surname, String phoneNumber, int annualSalary, int salonId) {
+        staffDataDao.addStaff(id, firstName, surname, phoneNumber, annualSalary, salonId);
     }
 
     @Override
     public List<Staff> findAll() throws StaffNotFoundException {
         return staffDataDao.findAll().orElseThrow(() -> new StaffNotFoundException("Did not retrieve any staff data."));
-    }
-
-    @Override
-    public Staff findStaffById(int id) throws StaffNotFoundException {
-        return staffDataDao.findStaffById(id)
-                .orElseThrow(() -> new StaffNotFoundException(String.format("Staff with id: %d not found.", id)));
     }
 
     @Override
@@ -42,17 +36,11 @@ public class StaffServiceImpl implements StaffService {
     }
 
     public void printAllStaff(List<Staff> staffList) {
-        System.out.printf("%-11s%-16s%-16s%-15s%-15s%-9s%n", "Staff ID", "First Name", "Surname", "Phone Number", "Salary", "Salon ID");
+        System.out.printf(TABLE_HEADER_FORMAT, "Staff ID", "First Name", "Surname", "Phone Number", "Salary", "Salon ID");
         staffList.forEach(staff -> {
-            System.out.printf("%-11d%-16s%-16s%-15s%-15d%-9d%n", staff.getStaffId(), staff.getFirstName(),
+            System.out.printf(TABLE_HEADER_FORMAT, staff.getStaffId(), staff.getFirstName(),
                     staff.getSurname(), staff.getPhoneNumber(), staff.getSalary(), staff.getSalonId());
         });
-    }
-
-    public void printStaff(Staff staff) {
-        System.out.printf("%-11s%-16s%-16s%-15s%-15s%-9s%n", "Staff ID", "First Name", "Surname", "Phone Number", "Salary", "Salon ID");
-        System.out.printf("%-11d%-16s%-16s%-15s%-15d%-9d%n", staff.getStaffId(), staff.getFirstName(),
-                staff.getSurname(), staff.getPhoneNumber(), staff.getSalary(), staff.getSalonId());
     }
 
     @Override
@@ -61,17 +49,13 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public boolean updateById(int id, String columnName, int newValue) {
-        return staffDataDao.updateById(id, columnName, newValue);
+    public void updateById(int id, String columnName, int newValue) {
+        staffDataDao.updateById(id, columnName, newValue);
     }
 
     @Override
-    public boolean deleteById(int id) {
-        return staffDataDao.deleteById(id);
+    public void deleteById(int id) {
+        staffDataDao.deleteById(id);
     }
 
-    @Override
-    public boolean deleteBySalonId(int salonId) {
-        return staffDataDao.deleteBySalonId(salonId);
-    }
 }

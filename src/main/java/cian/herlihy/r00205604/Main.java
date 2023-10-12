@@ -15,6 +15,7 @@ import java.util.Locale;
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
+    private static final String TASK_TITLE = "\n--------------------\n";
 
     public static void main(String[] args) {
 
@@ -25,25 +26,30 @@ public class Main {
             StaffServiceImpl staffService = applicationContext.getBean(StaffServiceImpl.class);
 
             // Salon data
+            System.out.println(TASK_TITLE);
             System.out.println("Get all salons");
             salonService.printAllSalons(salonService.findAll());
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Create a new salon providing all data and return this new salon");
             salonService.addSalon(5, "REVO Hair & Beauty", "10 Parnell Pl, Centre, Cork",
                     "0214248966", "0111110");
             salonService.printAllSalons(salonService.findAll());
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Get all salons by name");
             salonService.printAllSalons(salonService.findSalonByName("Stylz"));
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Get a salon by its primary key");
             List<Salon> salons = Collections.singletonList(salonService.findSalonById(2));
             salonService.printAllSalons(salons);
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Update salon by modifying the days on which it is open");
             Salon salon3Before = salonService.findSalonById(3);
             salonService.printSalon(salon3Before);
@@ -53,6 +59,7 @@ public class Main {
             salonService.printSalon(salon3After);
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Delete a salon and all that salon's stylists.");
             salonService.printAllSalons(salonService.findAll());
             System.out.println();
@@ -64,16 +71,19 @@ public class Main {
             staffService.printAllStaff(staffService.findAll());
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("List all those salons open 7 days a week");
             salonService.printSalonsWithDaysOpen();
             System.out.println("\n\n\n");
 
 
             // Staff data
+            System.out.println(TASK_TITLE);
             System.out.println("Get all stylists in a particular salon");
             staffService.printAllStaff(staffService.findStaffBySalonId(2));
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Add a stylist, ensuring you add them to a salon");
             staffService.printAllStaff(staffService.findAll());
             System.out.println();
@@ -81,6 +91,7 @@ public class Main {
             staffService.printAllStaff(staffService.findAll());
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Move a stylist from one salon to another");
             staffService.printAllStaff(staffService.findAll());
             System.out.println();
@@ -88,6 +99,7 @@ public class Main {
             staffService.printAllStaff(staffService.findAll());
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Delete a stylist");
             staffService.printAllStaff(staffService.findAll());
             System.out.println();
@@ -95,6 +107,7 @@ public class Main {
             staffService.printAllStaff(staffService.findAll());
             System.out.println();
 
+            System.out.println(TASK_TITLE);
             System.out.println("Determine the average salary of stylists in a particular salon");
             List<Salon> salonNum2 = Collections.singletonList(salonService.findSalonById(2));
             salonService.printAllSalons(salonNum2);

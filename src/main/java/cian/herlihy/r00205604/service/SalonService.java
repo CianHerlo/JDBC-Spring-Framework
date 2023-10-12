@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface SalonService {
 
+    String TABLE_HEADER_FORMAT = "%-3s%-30s%-55s%-14s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n";
+    String TABLE_INFO_FORMAT = "%-3d%-30s%-55s%-14s";
+    String DAYS_OPEN_HEADER = "%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n";
+
     // CREATE
-    boolean addSalon(int id, String name, String address, String phoneNumber, String daysOpen);
+    void addSalon(int id, String name, String address, String phoneNumber, String daysOpen);
 
     // READ
     List<Salon> findAll() throws SalonNotFoundException;
@@ -16,11 +20,8 @@ public interface SalonService {
     List<Salon> findSalonByName(String name) throws SalonNotFoundException;
 
     //UPDATE
-    boolean updateById(int id, String columnName, String newValue);
-//    boolean updateByName(String name, String columnName, String newValue);
+    void updateById(int id, String columnName, String newValue);
 
     // DELETE
-    boolean deleteById(int id);
-//    boolean deleteByName(String name);
-//    boolean deleteByPHNumber(String phoneNumber);
+    void deleteById(int id);
 }

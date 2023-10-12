@@ -11,7 +11,6 @@ public interface StaffDataDao extends Queries {
     boolean addStaff(int id, String firstName, String surname, String phoneNumber, int annualSalary, int salonId);
 
     // READ
-    Optional<Integer> countTotalStaff();
     Optional<List<Staff>> findAll();
     Optional<Staff> findStaffById(int id);
     Optional<List<Staff>> findStaffBySalonId(int salonId);
@@ -20,13 +19,9 @@ public interface StaffDataDao extends Queries {
     //UPDATE
     boolean updateById(int id, String columnName, String newValue);
     boolean updateById(int id, String columnName, int newValue);
-    boolean updateByFirstName(String firstName, String columnName, String newValue);
-    boolean updateBySurname(String surname, String columnName, String newValue);
 
     // DELETE
     boolean deleteById(int id);
     boolean deleteBySalonId(int salonId);
-    boolean deleteByFirstName(String firstName);
-    boolean deleteBySurname(String surname);
-    boolean deleteByPHNumber(String phoneNumber);
+
 }

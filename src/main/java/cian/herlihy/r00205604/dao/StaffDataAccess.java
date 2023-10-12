@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,9 +19,6 @@ public class StaffDataAccess implements StaffDataDao {
 
     private static final Logger LOGGER = LogManager.getLogger(SalonDataAccess.class);
     private static final String TABLE = "staff_data";
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -75,15 +71,9 @@ public class StaffDataAccess implements StaffDataDao {
      */
 
     @Override
-    public Optional<Integer> countTotalStaff() {
-        String query = String.format(TOTAL_COUNT_QUERY, TABLE);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(query, Integer.class));
-    }
-
-    @Override
     public Optional<List<Staff>> findAll() {
         String query = String.format(SELECT_ALL_QUERY, TABLE);
-        return Optional.of(jdbcTemplate.query(query, new StaffRowMapper()));
+        return Optional.of(namedParameterJdbcTemplate.getJdbcTemplate().query(query, new StaffRowMapper()));
     }
 
     @Override
@@ -175,28 +165,6 @@ public class StaffDataAccess implements StaffDataDao {
         }
     }
 
-    @Override
-    public boolean updateByFirstName(String firstName, String columnName, String newValue) {
-        try {
-            String query = String.format(UPDATE_BY_FIRST_NAME, TABLE, columnName, newValue, firstName);
-            return jdbcTemplate.update(query) >= 1;
-        } catch (Exception e) {
-            LOGGER.error("Error updating staff by first name. Cause: {}", e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public boolean updateBySurname(String surname, String columnName, String newValue) {
-        try {
-            String query = String.format(UPDATE_BY_SURNAME, TABLE, columnName, newValue, surname);
-            return jdbcTemplate.update(query) >= 1;
-        } catch (Exception e) {
-            LOGGER.error("Error updating staff by surname. Cause: {}", e.getMessage());
-            return false;
-        }
-    }
-
 
 
     /*
@@ -215,40 +183,6 @@ public class StaffDataAccess implements StaffDataDao {
             return namedParameterJdbcTemplate.update(query, parameters) == 1;
         } catch (Exception e) {
             LOGGER.error("Error deleting staff by id. Cause: {}", e.getMessage());
-            return false;
-        }
-    }
-
-
-    @Override
-    public boolean deleteByFirstName(String firstName) {
-        try {
-            String query = String.format(DELETE_BY_FIRST_NAME, TABLE, firstName);
-            return jdbcTemplate.update(query) == 1;
-        } catch (Exception e) {
-            LOGGER.error("Error deleting staff by first name. Cause: {}", e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public boolean deleteBySurname(String surname) {
-        try {
-            String query = String.format(DELETE_BY_SURNAME, TABLE, surname);
-            return jdbcTemplate.update(query) == 1;
-        } catch (Exception e) {
-            LOGGER.error("Error deleting staff by surname. Cause: {}", e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public boolean deleteByPHNumber(String phoneNumber) {
-        try {
-            String query = String.format(DELETE_BY_NUM, TABLE, phoneNumber);
-            return jdbcTemplate.update(query) == 1;
-        } catch (Exception e) {
-            LOGGER.error("Error deleting staff by phone number. Cause: {}", e.getMessage());
             return false;
         }
     }

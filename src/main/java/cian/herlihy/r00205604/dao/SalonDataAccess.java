@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,9 +18,6 @@ public class SalonDataAccess implements SalonDataDao {
 
     private static final Logger LOGGER = LogManager.getLogger(SalonDataAccess.class);
     private static final String TABLE = "salon_data";
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -64,15 +60,9 @@ public class SalonDataAccess implements SalonDataDao {
      */
 
     @Override
-    public Optional<Integer> countTotalSalons() {
-        String query = String.format(TOTAL_COUNT_QUERY, TABLE);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(query, Integer.class));
-    }
-
-    @Override
     public Optional<List<Salon>> findAll() {
         String query = String.format(SELECT_ALL_QUERY, TABLE);
-        return Optional.of(jdbcTemplate.query(query, new SalonRowMapper()));
+        return Optional.of(namedParameterJdbcTemplate.getJdbcTemplate().query(query, new SalonRowMapper()));
     }
 
     @Override
@@ -124,17 +114,6 @@ public class SalonDataAccess implements SalonDataDao {
         }
     }
 
-    @Override
-    public boolean updateByName(String name, String columnName, String newValue) {
-        try {
-            String query = String.format(UPDATE_BY_NAME, TABLE, columnName, newValue, name);
-            return jdbcTemplate.update(query) >= 1;
-        } catch (Exception e) {
-            LOGGER.error("Error updating salon by name. Cause: {}", e.getMessage());
-            return false;
-        }
-    }
-
 
 
     /*
@@ -164,29 +143,6 @@ public class SalonDataAccess implements SalonDataDao {
             }
         } catch (Exception e) {
             LOGGER.error("Error deleting salon by id. Cause: {}", e.getMessage());
-            return false;
-        }
-    }
-
-
-    @Override
-    public boolean deleteByName(String name) {
-        try {
-            String query = String.format(DELETE_BY_SALON_NAME, TABLE, name);
-            return jdbcTemplate.update(query) == 1;
-        } catch (Exception e) {
-            LOGGER.error("Error deleting salon by name. Cause: {}", e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public boolean deleteByPHNumber(String phoneNumber) {
-        try {
-            String query = String.format(DELETE_BY_NUM, TABLE, phoneNumber);
-            return jdbcTemplate.update(query) == 1;
-        } catch (Exception e) {
-            LOGGER.error("Error deleting salon by phoneNumber. Cause: {}", e.getMessage());
             return false;
         }
     }
