@@ -5,7 +5,7 @@ public interface CommonQueries {
     /*
         CREATE queries
     */
-    String INSERT_SALON = "INSERT INTO %s (id, name, address, phone_number, days_open) VALUES (%d, '%s', '%s', '%s', '%s')";
+    String INSERT_SALON = "INSERT INTO %s (id, name, address, phone_number, days_open) VALUES (:id, :name, :address, :phone_number, :days_open)";
     String INSERT_STAFF = "INSERT INTO %s (id, first_name, surname, phone_number, annual_salary, salon_id) " +
             "VALUES (%d, %s, %s, %s, %d, %d)";
 
@@ -14,7 +14,7 @@ public interface CommonQueries {
     */
     String TOTAL_COUNT_QUERY = "SELECT count(*) FROM %s";
     String SELECT_ALL_QUERY = "SELECT * FROM %s";
-    String FIND_BY_ID = "SELECT * FROM %s WHERE id = %d";
+    String FIND_BY_ID = "SELECT * FROM %s WHERE id = :id";
     String FIND_BY_NAME = "SELECT * FROM %s WHERE name = %s";
 
     /*

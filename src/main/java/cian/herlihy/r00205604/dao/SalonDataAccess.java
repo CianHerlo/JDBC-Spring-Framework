@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +23,9 @@ public class SalonDataAccess implements SalonDataDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
 
 
     /*
@@ -32,8 +37,16 @@ public class SalonDataAccess implements SalonDataDao {
     @Override
     public boolean addSalon(int id, String name, String address, String phoneNumber, String daysOpen) {
         try {
-            String query = String.format(INSERT_SALON, TABLE, id, name, address, phoneNumber, daysOpen);
-            return jdbcTemplate.update(query) == 1;
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("id", id);
+            parameters.addValue("name", name);
+            parameters.addValue("address", address);
+            parameters.addValue("phone_number", phoneNumber);
+            parameters.addValue("days_open", daysOpen);
+
+            String insertSql = String.format(INSERT_SALON, TABLE);
+            namedParameterJdbcTemplate.update(insertSql, parameters);
+            return true;
         } catch (Exception e) {
             LOGGER.warn("Error adding Salon to table. Cause: {}", e.getMessage());
             return false;
@@ -63,8 +76,12 @@ public class SalonDataAccess implements SalonDataDao {
     @Override
     public Optional<Salon> findSalonById(int id) {
         try {
-            String query = String.format(FIND_BY_ID, TABLE, id);
-            return Optional.ofNullable(jdbcTemplate.queryForObject(query, Salon.class));
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("id", id);
+
+            String query = String.format(FIND_BY_ID, TABLE);
+            Salon salon = namedParameterJdbcTemplate.queryForObject(query, parameters, new SalonRowMapper());
+            return Optional.ofNullable(salon);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
