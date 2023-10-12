@@ -154,10 +154,9 @@ public class StaffDataAccess implements StaffDataDao {
     @Override
     public boolean updateById(int id, String columnName, String newValue) {
         try {
-
-            String query = String.format(UPDATE_BY_ID, TABLE, columnName);
-            jdbcTemplate.update(query, newValue, id);
-            return true;
+            String query = String.format("UPDATE " + TABLE + " SET " + columnName + " = " +
+                    newValue + " WHERE id = " + id);
+            return namedParameterJdbcTemplate.getJdbcTemplate().update(query) == 1;
         } catch (Exception e) {
             LOGGER.error("Error updating staff by id. Cause: {}", e.getMessage());
             return false;
@@ -167,16 +166,14 @@ public class StaffDataAccess implements StaffDataDao {
     @Override
     public boolean updateById(int id, String columnName, int newValue) {
         try {
-
-            String query = String.format(UPDATE_BY_ID, TABLE, columnName);
-            jdbcTemplate.update(query, newValue, id);
-            return true;
+            String query = String.format("UPDATE " + TABLE + " SET " + columnName + " = " +
+                    newValue + " WHERE id = " + id);
+            return namedParameterJdbcTemplate.getJdbcTemplate().update(query) == 1;
         } catch (Exception e) {
             LOGGER.error("Error updating staff by id. Cause: {}", e.getMessage());
             return false;
         }
     }
-
 
     @Override
     public boolean updateByFirstName(String firstName, String columnName, String newValue) {

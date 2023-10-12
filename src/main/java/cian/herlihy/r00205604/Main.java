@@ -70,22 +70,24 @@ public class Main {
 
 
             // Staff data
-//            System.out.println("Get all stylists in a particular salon");
-//            System.out.println(staffService.findStaffBySalonId(1));
-//            System.out.println();
-//
-//            System.out.println("Add a stylist, ensuring you add them to a salon");
-//            staffService.addStaff(6, "Rachael", "Meehan", "0851112749", 51000, 5);
-//            System.out.println(staffService.findAll());
-//            System.out.println(staffService.findStaffById(6));
-//            System.out.println();
-//
-//            System.out.println("Move a stylist from one salon to another");
-//            System.out.println(staffService.findStaffById(6));
-//            staffService.updateById(6, "salon_id", 1);
-//            System.out.println(staffService.findStaffById(6));
-//            System.out.println();
-//
+            System.out.println("Get all stylists in a particular salon");
+            staffService.printAllStaff(staffService.findStaffBySalonId(2));
+            System.out.println();
+
+            System.out.println("Add a stylist, ensuring you add them to a salon");
+            staffService.printAllStaff(staffService.findAll());
+            System.out.println();
+            staffService.addStaff(6, "Rachael", "Meehan", "0851112749", 51000, 5);
+            staffService.printAllStaff(staffService.findAll());
+            System.out.println();
+
+            System.out.println("Move a stylist from one salon to another");
+            staffService.printAllStaff(staffService.findAll());
+            System.out.println();
+            staffService.updateById(6, "salon_id", 2);
+            staffService.printAllStaff(staffService.findAll());
+            System.out.println();
+
 //            System.out.println("Delete a stylist");
 //            System.out.println(staffService.findAll());
 //            staffService.deleteById(6);

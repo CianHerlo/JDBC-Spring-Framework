@@ -42,19 +42,17 @@ public class StaffServiceImpl implements StaffService {
     }
 
     public void printAllStaff(List<Staff> staffList) {
-        System.out.println("Staff ID   First Name       Surname         Phone Number   Annual Salary  Salon ID");
+        System.out.printf("%-11s%-16s%-16s%-15s%-15s%-9s%n", "Staff ID", "First Name", "Surname", "Phone Number", "Salary", "Salon ID");
         staffList.forEach(staff -> {
-            System.out.printf("%-11d%-16s%-16s%-15s%-15d%-9d%n",
-                    staff.getStaffId(), staff.getFirstName(), staff.getSurname(),
-                    staff.getPhoneNumber(), staff.getSalary(), staff.getSalonId());
+            System.out.printf("%-11d%-16s%-16s%-15s%-15d%-9d%n", staff.getStaffId(), staff.getFirstName(),
+                    staff.getSurname(), staff.getPhoneNumber(), staff.getSalary(), staff.getSalonId());
         });
     }
 
     public void printStaff(Staff staff) {
-        System.out.println("Staff ID   First Name       Surname         Phone Number   Annual Salary  Salon ID");
-        System.out.printf("%-11d%-16s%-16s%-15s%-15d%-9d%n",
-                staff.getStaffId(), staff.getFirstName(), staff.getSurname(),
-                staff.getPhoneNumber(), staff.getSalary(), staff.getSalonId());
+        System.out.printf("%-11s%-16s%-16s%-15s%-15s%-9s%n", "Staff ID", "First Name", "Surname", "Phone Number", "Salary", "Salon ID");
+        System.out.printf("%-11d%-16s%-16s%-15s%-15d%-9d%n", staff.getStaffId(), staff.getFirstName(),
+                staff.getSurname(), staff.getPhoneNumber(), staff.getSalary(), staff.getSalonId());
     }
 
     @Override
