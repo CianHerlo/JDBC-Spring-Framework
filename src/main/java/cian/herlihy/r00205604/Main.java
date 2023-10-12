@@ -48,7 +48,7 @@ public class Main {
         System.out.println("Delete a salon and all that salon's stylists.");
         System.out.println(salonDataDao.findAll());
         System.out.println(staffDataDao.findAll());
-        salonDataDao.deleteById(2);
+        salonDataDao.deleteById(1);
         System.out.println(salonDataDao.findAll());
         System.out.println(staffDataDao.findAll());
         System.out.println();
@@ -70,6 +70,24 @@ public class Main {
         System.out.println("Add a stylist, ensuring you add them to a salon");
         staffDataDao.addStaff(6, "Rachael", "Meehan", "0851112749", 51000, 5);
         System.out.println(staffDataDao.findAll());
+        System.out.println(staffDataDao.findStaffById(6));
+        System.out.println();
+
+        System.out.println("Move a stylist from one salon to another");
+        System.out.println(staffDataDao.findStaffById(6));
+        staffDataDao.updateById(6, "salon_id", 1);
+        System.out.println(staffDataDao.findStaffById(6));
+        System.out.println();
+
+        System.out.println("Delete a stylist");
+        System.out.println(staffDataDao.findAll());
+        staffDataDao.deleteById(6);
+        System.out.println(staffDataDao.findAll());
+        System.out.println();
+
+        System.out.println("Determine the average salary of stylists in a particular salon");
+        System.out.println(staffDataDao.findStaffBySalonId(2));
+        System.out.println(staffDataDao.findAverageSalary(2));
         System.out.println();
     }
 }

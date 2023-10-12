@@ -22,7 +22,7 @@ public interface Queries {
     /*
         UPDATE queries
     */
-    String UPDATE_BY_ID = "UPDATE %s SET %s = %s WHERE id = %d";
+    String UPDATE_BY_ID = "UPDATE %s SET %s = ? WHERE id = ?";
     String UPDATE_BY_NAME = "UPDATE %s SET %s = %s WHERE name = %s";
     String UPDATE_BY_FIRST_NAME = "UPDATE %s SET %s = %s WHERE first_name = %s";
     String UPDATE_BY_SURNAME = "UPDATE %s SET %s = %s WHERE surname = %s";

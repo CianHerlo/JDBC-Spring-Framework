@@ -104,7 +104,6 @@ public class StaffDataAccess implements StaffDataDao {
         }
     }
 
-
     @Override
     public Optional<List<Staff>> findStaffBySalonId(int salonId) {
         try {
@@ -120,16 +119,28 @@ public class StaffDataAccess implements StaffDataDao {
     }
 
     @Override
-    public Optional<List<Staff>> findStaffByFirstName(String firstName) {
-        String query = String.format(FIND_BY_NAME, TABLE, firstName);
-        return Optional.of(jdbcTemplate.query(query, new StaffRowMapper()));
+    public float findAverageSalary(int salonId) {
+        try {
+            Optional<List<Staff>> staffListOptional = findStaffBySalonId(salonId);
+
+            if (staffListOptional.isPresent()) {
+                List<Staff> staffList = staffListOptional.get();
+                if (staffList.isEmpty()) {
+                    return 0.0f;
+                }
+
+                return (float) staffList.stream()
+                        .mapToDouble(Staff::getSalary)
+                        .average()
+                        .orElse(0.0);
+            }
+        } catch (EmptyResultDataAccessException e) {
+            return 0.0f;
+        }
+        return 0.0f;
     }
 
-    @Override
-    public Optional<List<Staff>> findStaffBySurname(String surname) {
-        String query = String.format(FIND_BY_NAME, TABLE, surname);
-        return Optional.of(jdbcTemplate.query(query, new StaffRowMapper()));
-    }
+
 
 
 
@@ -142,13 +153,29 @@ public class StaffDataAccess implements StaffDataDao {
     @Override
     public boolean updateById(int id, String columnName, String newValue) {
         try {
-            String query = String.format(UPDATE_BY_ID, TABLE, columnName, newValue, id);
-            return jdbcTemplate.update(query) == 1;
+
+            String query = String.format(UPDATE_BY_ID, TABLE, columnName);
+            jdbcTemplate.update(query, newValue, id);
+            return true;
         } catch (Exception e) {
             LOGGER.warn("Error updating staff by id. Cause: {}", e.getMessage());
             return false;
         }
     }
+
+    @Override
+    public boolean updateById(int id, String columnName, int newValue) {
+        try {
+
+            String query = String.format(UPDATE_BY_ID, TABLE, columnName);
+            jdbcTemplate.update(query, newValue, id);
+            return true;
+        } catch (Exception e) {
+            LOGGER.warn("Error updating staff by id. Cause: {}", e.getMessage());
+            return false;
+        }
+    }
+
 
     @Override
     public boolean updateByFirstName(String firstName, String columnName, String newValue) {

@@ -15,11 +15,11 @@ public interface StaffDataDao extends Queries {
     Optional<List<Staff>> findAll();
     Optional<Staff> findStaffById(int id);
     Optional<List<Staff>> findStaffBySalonId(int salonId);
-    Optional<List<Staff>> findStaffByFirstName(String firstName);
-    Optional<List<Staff>> findStaffBySurname(String surname);
+    float findAverageSalary(int salonId);
 
     //UPDATE
     boolean updateById(int id, String columnName, String newValue);
+    boolean updateById(int id, String columnName, int newValue);
     boolean updateByFirstName(String firstName, String columnName, String newValue);
     boolean updateBySurname(String surname, String columnName, String newValue);
 
