@@ -88,16 +88,21 @@ public class Main {
             staffService.printAllStaff(staffService.findAll());
             System.out.println();
 
-//            System.out.println("Delete a stylist");
-//            System.out.println(staffService.findAll());
-//            staffService.deleteById(6);
-//            System.out.println(staffService.findAll());
-//            System.out.println();
-//
-//            System.out.println("Determine the average salary of stylists in a particular salon");
-//            System.out.println(staffService.findStaffBySalonId(2));
-//            System.out.println(staffService.findAverageSalary(2));
-//            System.out.println();
+            System.out.println("Delete a stylist");
+            staffService.printAllStaff(staffService.findAll());
+            System.out.println();
+            staffService.deleteById(6);
+            staffService.printAllStaff(staffService.findAll());
+            System.out.println();
+
+            System.out.println("Determine the average salary of stylists in a particular salon");
+            List<Salon> salonNum2 = Collections.singletonList(salonService.findSalonById(2));
+            salonService.printAllSalons(salonNum2);
+            System.out.println();
+            staffService.printAllStaff(staffService.findStaffBySalonId(2));
+            System.out.println();
+            System.out.println("Average Salary: €" + staffService.findAverageSalary(2));
+            System.out.println();
         } catch (Exception e) {
             LOGGER.error("Error occurred. Cause: {}", e.getMessage());
         }
