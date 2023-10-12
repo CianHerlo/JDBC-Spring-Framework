@@ -50,7 +50,7 @@ public class StaffDataAccess implements StaffDataDao {
 
                 MapSqlParameterSource parameters = new MapSqlParameterSource();
                 parameters.addValue("id", id);
-                parameters.addValue("first name", firstName);
+                parameters.addValue("first_name", firstName);
                 parameters.addValue("surname", surname);
                 parameters.addValue("phone_number", phoneNumber);
                 parameters.addValue("annual_salary", annualSalary);
@@ -88,9 +88,22 @@ public class StaffDataAccess implements StaffDataDao {
 
     @Override
     public Optional<Staff> findStaffById(int id) {
-        String query = String.format(FIND_BY_ID, TABLE, id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(query, new StaffRowMapper()));
+        try {
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("id", id);
+
+            String query = String.format(FIND_BY_ID, TABLE);
+            List<Staff> staffList = namedParameterJdbcTemplate.query(query, parameters, new StaffRowMapper());
+
+            if (staffList.isEmpty()) {
+                return Optional.empty();
+            }
+            return Optional.of(staffList.get(0));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
+
 
     @Override
     public Optional<List<Staff>> findStaffBySalonId(int salonId) {
