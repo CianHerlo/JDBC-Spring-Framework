@@ -50,7 +50,7 @@ public class SalonDataAccess implements SalonDataDao {
             namedParameterJdbcTemplate.update(insertSql, parameters);
             return true;
         } catch (Exception e) {
-            LOGGER.warn("Error adding Salon to table. Cause: {}", e.getMessage());
+            LOGGER.error("Error adding Salon to table. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -99,7 +99,7 @@ public class SalonDataAccess implements SalonDataDao {
             List<Salon> salons = namedParameterJdbcTemplate.query(query, parameters, new SalonRowMapper());
             return Optional.of(salons);
         } catch (Exception e) {
-            LOGGER.warn("Error finding Salon with matching name. Cause: {}", e.getMessage());
+            LOGGER.error("Error finding Salon with matching name. Cause: {}", e.getMessage());
             return Optional.empty();
         }
     }
@@ -115,10 +115,14 @@ public class SalonDataAccess implements SalonDataDao {
     @Override
     public boolean updateById(int id, String columnName, String newValue) {
         try {
-            String query = String.format(UPDATE_BY_ID, TABLE, columnName, newValue, id);
-            return jdbcTemplate.update(query) == 1;
+            MapSqlParameterSource parameters = new MapSqlParameterSource();
+            parameters.addValue("days_open", newValue);
+            parameters.addValue("id", id);
+
+            String query = String.format(UPDATE_BY_ID, TABLE, columnName);
+            return namedParameterJdbcTemplate.update(query, parameters) == 1;
         } catch (Exception e) {
-            LOGGER.warn("Error updating salon by id. Cause: {}", e.getMessage());
+            LOGGER.error("Error updating salon by id. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -129,7 +133,7 @@ public class SalonDataAccess implements SalonDataDao {
             String query = String.format(UPDATE_BY_NAME, TABLE, columnName, newValue, name);
             return jdbcTemplate.update(query) >= 1;
         } catch (Exception e) {
-            LOGGER.warn("Error updating salon by name. Cause: {}", e.getMessage());
+            LOGGER.error("Error updating salon by name. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -162,7 +166,7 @@ public class SalonDataAccess implements SalonDataDao {
                 throw new RuntimeException("Failed to delete Stylists in Salon");
             }
         } catch (Exception e) {
-            LOGGER.warn("Error deleting salon by id. Cause: {}", e.getMessage());
+            LOGGER.error("Error deleting salon by id. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -174,7 +178,7 @@ public class SalonDataAccess implements SalonDataDao {
             String query = String.format(DELETE_BY_SALON_NAME, TABLE, name);
             return jdbcTemplate.update(query) == 1;
         } catch (Exception e) {
-            LOGGER.warn("Error deleting salon by name. Cause: {}", e.getMessage());
+            LOGGER.error("Error deleting salon by name. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -185,7 +189,7 @@ public class SalonDataAccess implements SalonDataDao {
             String query = String.format(DELETE_BY_NUM, TABLE, phoneNumber);
             return jdbcTemplate.update(query) == 1;
         } catch (Exception e) {
-            LOGGER.warn("Error deleting salon by phoneNumber. Cause: {}", e.getMessage());
+            LOGGER.error("Error deleting salon by phoneNumber. Cause: {}", e.getMessage());
             return false;
         }
     }

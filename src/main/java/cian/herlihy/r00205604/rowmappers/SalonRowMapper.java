@@ -15,7 +15,7 @@ public class SalonRowMapper implements RowMapper<Salon> {
         salon.setSalon_id(rs.getInt(1));
         salon.setName(rs.getString(2));
         salon.setAddress(rs.getString(3));
-        salon.setPhone_number(rs.getString(4));
+        salon.setPhoneNumber(rs.getString(4));
         salon.setDays_open(rs.getString(5));
         return salon;
     }

@@ -12,6 +12,6 @@ public class Salon {
     private int salon_id;
     private String name;
     private String address;
-    private String phone_number;
+    private String phoneNumber;
     private String days_open;   // MTWTFSS = 0111110 -> Closed Monday & Sunday
 }

@@ -61,7 +61,7 @@ public class StaffDataAccess implements StaffDataDao {
                 return true;
             }
         } catch (Exception e) {
-            LOGGER.warn("Error adding Staff to table. Cause: {}", e.getMessage());
+            LOGGER.error("Error adding Staff to table. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -134,7 +134,8 @@ public class StaffDataAccess implements StaffDataDao {
                         .average()
                         .orElse(0.0);
             }
-        } catch (EmptyResultDataAccessException e) {
+        } catch (Exception e) {
+            LOGGER.error("Failed to find average salary. Cause: {}", e.getMessage());
             return 0.0f;
         }
         return 0.0f;
@@ -158,7 +159,7 @@ public class StaffDataAccess implements StaffDataDao {
             jdbcTemplate.update(query, newValue, id);
             return true;
         } catch (Exception e) {
-            LOGGER.warn("Error updating staff by id. Cause: {}", e.getMessage());
+            LOGGER.error("Error updating staff by id. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -171,7 +172,7 @@ public class StaffDataAccess implements StaffDataDao {
             jdbcTemplate.update(query, newValue, id);
             return true;
         } catch (Exception e) {
-            LOGGER.warn("Error updating staff by id. Cause: {}", e.getMessage());
+            LOGGER.error("Error updating staff by id. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -183,7 +184,7 @@ public class StaffDataAccess implements StaffDataDao {
             String query = String.format(UPDATE_BY_FIRST_NAME, TABLE, columnName, newValue, firstName);
             return jdbcTemplate.update(query) >= 1;
         } catch (Exception e) {
-            LOGGER.warn("Error updating staff by first name. Cause: {}", e.getMessage());
+            LOGGER.error("Error updating staff by first name. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -194,7 +195,7 @@ public class StaffDataAccess implements StaffDataDao {
             String query = String.format(UPDATE_BY_SURNAME, TABLE, columnName, newValue, surname);
             return jdbcTemplate.update(query) >= 1;
         } catch (Exception e) {
-            LOGGER.warn("Error updating staff by surname. Cause: {}", e.getMessage());
+            LOGGER.error("Error updating staff by surname. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -216,7 +217,7 @@ public class StaffDataAccess implements StaffDataDao {
             String query = String.format(DELETE_BY_ID, TABLE);
             return namedParameterJdbcTemplate.update(query, parameters) == 1;
         } catch (Exception e) {
-            LOGGER.warn("Error deleting staff by id. Cause: {}", e.getMessage());
+            LOGGER.error("Error deleting staff by id. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -228,7 +229,7 @@ public class StaffDataAccess implements StaffDataDao {
             String query = String.format(DELETE_BY_FIRST_NAME, TABLE, firstName);
             return jdbcTemplate.update(query) == 1;
         } catch (Exception e) {
-            LOGGER.warn("Error deleting staff by first name. Cause: {}", e.getMessage());
+            LOGGER.error("Error deleting staff by first name. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -239,7 +240,7 @@ public class StaffDataAccess implements StaffDataDao {
             String query = String.format(DELETE_BY_SURNAME, TABLE, surname);
             return jdbcTemplate.update(query) == 1;
         } catch (Exception e) {
-            LOGGER.warn("Error deleting staff by surname. Cause: {}", e.getMessage());
+            LOGGER.error("Error deleting staff by surname. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -250,7 +251,7 @@ public class StaffDataAccess implements StaffDataDao {
             String query = String.format(DELETE_BY_NUM, TABLE, phoneNumber);
             return jdbcTemplate.update(query) == 1;
         } catch (Exception e) {
-            LOGGER.warn("Error deleting staff by phone number. Cause: {}", e.getMessage());
+            LOGGER.error("Error deleting staff by phone number. Cause: {}", e.getMessage());
             return false;
         }
     }
@@ -265,7 +266,7 @@ public class StaffDataAccess implements StaffDataDao {
             int rowsAffected = namedParameterJdbcTemplate.update(query, parameters);
             return rowsAffected > 0;
         } catch (Exception e) {
-            LOGGER.warn("Error deleting staff by salon_id. Cause: {}", e.getMessage());
+            LOGGER.error("Error deleting staff by salon_id. Cause: {}", e.getMessage());
             return false;
         }
     }
