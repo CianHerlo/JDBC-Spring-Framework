@@ -22,6 +22,9 @@ public class Main {
         try {
             ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
             System.out.println(applicationContext.getMessage("welcome", null, Locale.getDefault()));
+            System.out.println(applicationContext.getMessage("welcome", null, Locale.FRENCH));
+            System.out.println(applicationContext.getMessage("welcome", null, Locale.GERMAN));
+
             SalonServiceImpl salonService = applicationContext.getBean(SalonServiceImpl.class);
             StaffServiceImpl staffService = applicationContext.getBean(StaffServiceImpl.class);
 
